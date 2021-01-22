@@ -9,7 +9,8 @@ list_of_candidates = []
 candidate_votes = {}
 votes = 0
 votes_percentage = 0.0
-
+winning_candidate = ""
+winners_votes = 0
 
 # import the data
 file_to_read = os.path.join('Resources', 'election_data.csv')
@@ -48,9 +49,25 @@ with open(file_to_write, "w") as output_text:
     output_text.write(results)
 
     # loop for determining winner
-    for candidate in list_of_candidates:
+    for candidate in candidate_votes:
         votes = candidate_votes.get(candidate)
         votes_percentage = float(votes)/float(total_votes)*100
-    # print each candidate and their vote count
+        # determine winner and wining vote count
+        if (votes > winners_votes):
+            winning_candidate = candidate
+            winners_votes = votes
+        candidate_output = (
+            f"{candidate}: {votes_percentage:.3}% {votes}\n"
+        )
+        print(candidate_output, end="")
+        output_text.write(candidate_output)
 
+    # print each candidate and their vote count
+    candidate_winner = (
+        f"----------------------\n"
+        f"Winner: {winning_candidate}\n"
+        f"----------------------\n"
+    )
     # print winning candidate
+    print(candidate_winner, end="")
+    output_text.write(candidate_winner)
